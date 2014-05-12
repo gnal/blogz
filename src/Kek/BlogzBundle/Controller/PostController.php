@@ -6,17 +6,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class HomeController extends Controller
+class PostController extends Controller
 {
     /**
+     * @Route("/blog/{post}")
      * @Template()
      */
-    public function indexAction()
+    public function showAction()
     {
-        $posts = $this->getDoctrine()->getRepository('KekBlogzBundle:Post')->findAll();
+        $post = $this->getDoctrine()->getRepository('KekBlogzBundle:Post')->findOneBy(['slug' => $this->getRequest()->attributes->get('post')]);
 
         return [
-            'posts' => $posts,
+            'post' => $post,
         ];
     }
 }

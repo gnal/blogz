@@ -23,6 +23,7 @@ class PostAdmin extends Admin
         $builder
             ->add('published', 'boolean')
             ->add('title')
+            ->add('slug')
         ;
     }
 
@@ -36,6 +37,7 @@ class PostAdmin extends Admin
                     'class' => 'tinymce',
                 ],
             ])
+            ->add('imageFile', 'file')
             ->add('tags')
             ->add('site')
         ;

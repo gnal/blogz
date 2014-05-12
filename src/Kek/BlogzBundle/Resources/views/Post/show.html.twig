@@ -1,0 +1,16 @@
+{% extends 'KekBlogzBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="blog-post">
+    <img alt="900x500" class="img-responsive" src="{{ post.pathname }}">
+    <br>
+    <h2 class="blog-post-title">{{ post.title }}</h2>
+    <p class="blog-post-meta">{{ post.createdAt|date('F d, Y') }} by <a href="#">{{ post.createdBy }}</a></p>
+    {{ post.content|raw }}
+</div>
+
+<ul class="pager">
+    <li><a href="#">Previous</a></li>
+    <li><a href="#">Next</a></li>
+</ul>
+{% endblock %}

@@ -1,19 +1,71 @@
 {% extends 'KekBlogzBundle::layout.html.twig' %}
 
-{% block content %}
-{% for i in 1..5 %}
-<div class="blog-post">
-<h2 class="blog-post-title">Sample blog post</h2>
-<p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
+{% block content_top %}
+<div id="carousel-example-captions" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        {% for post in posts %}
+            <li data-target="#carousel-example-captions" data-slide-to="{{ loop.index - 1 }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
+        {% endfor %}
+    </ol>
+    <div class="carousel-inner">
+        {% for post in posts %}
+            <div class="item{% if loop.index == 1 %} active{% endif %}">
+                <img alt="900x500" src="{{ post.pathname }}">
+                <div class="carousel-caption">
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.content|striptags|truncate(75) }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a class="left carousel-control" href="#carousel-example-captions" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-captions" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+</div>
+{% endblock %}
 
-<p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p>
-<hr>
-<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-</div><!-- /.blog-post -->
+{% block content %}
+{#<div class="slider-homepage">
+    <ul class="slider list-unstyled">
+        {% for post in posts %}
+            <li>
+                <img src="{{ post.pathname }}" alt="0">
+                <h3>dadada</h3>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="carousel-wrapper">
+        <ul class="carousel list-unstyled">
+            {% for post in posts %}
+                <li></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>#}
+{% for post in posts %}
+<div class="blog-post">
+    <h2 class="blog-post-title"><a href="{{ path('kek_blogz_post_show', {'post': post.slug}) }}">{{ post.title }}</a></h2>
+    <p class="blog-post-meta">{{ post.createdAt|date('F d, Y') }} by <a href="#">{{ post.createdBy }}</a></p>
+    {{ post.content|raw }}
+</div>
 {% endfor %}
 
 <ul class="pager">
-<li><a href="#">Previous</a></li>
-<li><a href="#">Next</a></li>
+    <li><a href="#">Previous</a></li>
+    <li><a href="#">Next</a></li>
 </ul>
+{% endblock %}
+
+{% block js %}
+{{ parent() }}
+<script src="{{ asset('bundles/msiadmin/vendor/msi-slider/js/msi-slider.js') }}"></script>
+<script>
+(function($) {
+    "use strict";
+    $('.slider-homepage').msiSlider();
+})(jQuery);
+</script>
 {% endblock %}
